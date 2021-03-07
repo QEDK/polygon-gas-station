@@ -1,4 +1,5 @@
 import requests
+import redis
 from fastapi import FastAPI
 from typing import Optional
 
@@ -12,3 +13,7 @@ async def read_root():
 @app.get("/gas_overview")
 async def fetch_from_oracle():
 	return session.get("https://gasstation-mainnet.matic.network").json()
+
+@app.get("/last_block")
+async def last_block():
+	pass
