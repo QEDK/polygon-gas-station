@@ -18,11 +18,11 @@ cron = mp.Process(target=caching.set_last_block, daemon=True)
 cron.start()
 
 @app.get("/")
-async def read_root():
+async def test_alive():
     return {"Hello": "World"}
 
 @app.get("/gas_overview")
-async def fetch_from_oracle():
+async def gas_overview():
     return s.get("https://gasstation-mainnet.matic.network").json()
 
 @app.get("/last_block")
