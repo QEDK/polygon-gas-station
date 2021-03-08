@@ -17,11 +17,13 @@ def set_last_block():
                 f"https://apis.matic.network/api/v1/matic/block-included/{next_block + 1}"
                 ).json()["message"] != "success":
                 break
-            else:
-                next_block += 1
-            if next_block > last_known_block:
+            next_block += 1
+            if next_block - last_known_block > 100: # update every 100 blocks anyway if lagging
+                last_known_block = next_block
                 r.set("last_included_block", next_block)
-            time.sleep(3600)
+        if next_block > last_known_block:
+            r.set("last_included_block", next_block)
+        time.sleep(3600)
 
 if __name__ == "__main__":
     set_last_block()
