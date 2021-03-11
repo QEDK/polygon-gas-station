@@ -1,4 +1,4 @@
-# Polygon Gas Satation
+# Polygon Gas Station
 
 ## How to use
 

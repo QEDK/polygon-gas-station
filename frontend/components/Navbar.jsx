@@ -1,10 +1,11 @@
 import React from 'react';
+import Link from 'next/link';
+
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -12,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 280;
@@ -29,24 +31,29 @@ const Navbar = ({ isMobile, ...props }) => {
     <div>
       <div className={classes.toolbar} />
       <img src="/logo.svg" className={classes.logo} />
-      <Divider />
+      <Divider style={{ color: '#000000', margin: '10px 0px' }} />
       <List>
         <ListItem button>
-          <ListItemIcon>{<InboxIcon />}</ListItemIcon>
+          <ListItemIcon className={classes.item}>
+            {<img src="/img/gastracker.svg" className={classes.itemLogo} />}
+          </ListItemIcon>
+          <ListItemText primary="Gas Tracker" />
+        </ListItem>
+
+        <ListItem button>
+          <ListItemIcon className={classes.item}>
+            {<img src="/img/calculator.svg" className={classes.itemLogo} />}
+          </ListItemIcon>
           <ListItemText primary="Tx Calculator" />
         </ListItem>
 
         <ListItem button>
-          <ListItemIcon>{<InboxIcon />}</ListItemIcon>
-          <ListItemText primary="Gas Burners" />
-        </ListItem>
-
-        <ListItem button>
-          <ListItemIcon>{<InboxIcon />}</ListItemIcon>
-          <ListItemText primary="API" />
+          <ListItemIcon className={classes.item}>
+            {<img src="/img/about.svg" className={classes.itemLogo} />}
+          </ListItemIcon>
+          <ListItemText primary="About" />
         </ListItem>
       </List>
-
     </div>
   );
 
@@ -66,8 +73,17 @@ const Navbar = ({ isMobile, ...props }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Polygon Gas Satation
+            Polygon Gas Station
           </Typography>
+
+          <div className={classes.social}>
+            <a href="https://twitter.com/0xPolygon" target="_blank" rel="noopener noreferrer">
+              <img src="/img/twitter.svg" className={classes.socialImg} />
+            </a>
+            <a href="https://discord.com/invite/XvpHAxZ" target="_blank" rel="noopener noreferrer">
+              <img src="/img/discord.svg" className={classes.socialImg} />
+            </a>
+          </div>
         </Toolbar>
       </AppBar>
 
@@ -111,8 +127,9 @@ const Navbar = ({ isMobile, ...props }) => {
 const useStyles = makeStyles((theme) => ({
   appBar: {
     boxShadow: "none",
-    borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
-    backgroundColor: "#2d4059",
+    borderBottom: "1px solid #7533E2",
+    backgroundColor: "#FFFFFF",
+    color: "#000000",
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -124,6 +141,17 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  social: {
+    position: 'absolute',
+    display: 'flex',
+    right: 20
+  },
+  socialImg: {
+    width: 40,
+    display: 'block',
+    margin: 'auto',
+    marginRight: 10
+  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -132,16 +160,25 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    // backgroundColor: "#2d4059",
-    // color: 'black'
+    backgroundColor: "#7533E2",
+    borderRight: "1px solid #00000",
+    color: 'white',
+    zIndex: 100
   },
   toolbar: {
     backgroundColor: "white",
     color: "black",
   },
   logo: {
-    width: 200,
-    padding: theme.spacing(2)
+    width: '90%',
+    padding: theme.spacing(1),
+    marginTop: 10,
+  },
+  item: {
+    justifyContent: 'center'
+  },
+  itemLogo: {
+    width: 30
   }
 }));
 
