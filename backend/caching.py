@@ -24,7 +24,7 @@ def set_last_block():
 
 def set_weekly_prices():
     to_date = date.today()
-    from_date = to_date - timedelta(weeks=1)
+    from_date = to_date - timedelta(days=6)
     res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC/",
         params={"from": from_date.isoformat(), "to": to_date.isoformat()}).json()
     d = {}
