@@ -43,8 +43,8 @@ def main():
     set_last_block()
     set_weekly_prices()
     while True:
-        schdler.enter(3600, set_last_block)  # one hour
-        schdler.enter(900, update_current_price)  # 15 minutes
+        schdler.enter(3600, 1, set_last_block)  # one hour
+        schdler.enter(900, 1, update_current_price)  # 15 minutes
         schdler.run()
 
 if __name__ == "__main__":

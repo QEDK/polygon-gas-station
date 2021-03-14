@@ -1,9 +1,9 @@
+import caching
+import json
+import multiprocessing as mp
 import os
 import redis
 import requests
-import threading
-import multiprocessing as mp
-import caching
 from fastapi import FastAPI
 from typing import Optional
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ r = redis.Redis(host=os.getenv('DB_HOST'), port=os.getenv('DB_PORT'), password=o
     decode_responses=True)
 s = requests.Session()
 
-cron = mp.Process(target=caching.set_last_block, daemon=True)
+cron = mp.Process(target=caching.main, daemon=True)
 cron.start()
 
 @app.get("/")
@@ -27,11 +27,11 @@ async def gas_overview():
 
 @app.get("/last_block")
 async def last_block():
-    return json.dumps({"last_included_block": r.get("last_included_block")})
+    return {"last_included_block": r.get("last_included_block")}
 
 @app.get("/historical_prices")
 async def historical_prices():
-	return json.dumps(r.hgetall("prices"))
+	return r.hgetall("prices")
 
 @app.get("/debug")
 async def check():
