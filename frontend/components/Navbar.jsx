@@ -18,7 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 280;
 
-const Navbar = ({ isMobile, ...props }) => {
+const Navbar = ({ title, ...props }) => {
   const { window } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -33,26 +33,50 @@ const Navbar = ({ isMobile, ...props }) => {
       <img src="/logo.svg" className={classes.logo} />
       <Divider style={{ color: '#000000', margin: '10px 0px' }} />
       <List>
-        <ListItem button>
-          <ListItemIcon className={classes.item}>
-            {<img src="/img/gastracker.svg" className={classes.itemLogo} />}
-          </ListItemIcon>
-          <ListItemText primary="Gas Tracker" />
-        </ListItem>
+        <Link href={'/'}>
+          <a className={classes.link}>
+            <ListItem button>
+              <img src="/img/gastracker.svg" className={classes.itemLogo} />
+              <ListItemText primary="Gas Tracker" />
+            </ListItem>
+          </a>
+        </Link>
 
-        <ListItem button>
-          <ListItemIcon className={classes.item}>
-            {<img src="/img/calculator.svg" className={classes.itemLogo} />}
-          </ListItemIcon>
-          <ListItemText primary="Tx Calculator" />
-        </ListItem>
+        <Link href={'/blockchecker'}>
+          <a className={classes.link}>
+            <ListItem button>
+              <img src="/img/blockchecker.svg" className={classes.itemLogo} />
+              <ListItemText primary="Block Calculator" />
+            </ListItem>
+          </a>
+        </Link>
 
-        <ListItem button>
-          <ListItemIcon className={classes.item}>
-            {<img src="/img/about.svg" className={classes.itemLogo} />}
-          </ListItemIcon>
-          <ListItemText primary="About" />
-        </ListItem>
+        <Link href={'/txinspector'}>
+          <a className={classes.link}>
+            <ListItem button>
+              <img src="/img/txvision.svg" className={classes.itemLogo} />
+              <ListItemText primary="TxPool Inspector" />
+            </ListItem>
+          </a>
+        </Link>
+
+        <Link href={'/calculator'}>
+          <a className={classes.link}>
+            <ListItem button>
+              <img src="/img/calculator.svg" className={classes.itemLogo} />
+              <ListItemText primary="Tx Calculator" />
+            </ListItem>
+          </a>
+        </Link>
+
+        <Link href={'/about'}>
+          <a className={classes.link}>
+            <ListItem button>
+              <img src="/img/about.svg" className={classes.itemLogo} />
+              <ListItemText primary="About" />
+            </ListItem>
+          </a>
+        </Link>
       </List>
     </div>
   );
@@ -73,7 +97,7 @@ const Navbar = ({ isMobile, ...props }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Polygon Gas Station
+            {title}
           </Typography>
 
           <div className={classes.social}>
@@ -160,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "#7533E2",
+    backgroundImage: "linear-gradient(180deg,rgb(92 52 162),rgb(103 58 181))",
     borderRight: "1px solid #00000",
     color: 'white',
     zIndex: 100
@@ -174,11 +198,16 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     marginTop: 10,
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit'
+  },
   item: {
     justifyContent: 'center'
   },
   itemLogo: {
-    width: 30
+    width: 30,
+    margin: '0 10px'
   }
 }));
 
