@@ -9,13 +9,40 @@ import LineChart from '../components/chart';
 const Index = ({ isMobile }) => {
   const classes = useStyles();
   const [gasData, setGasData] = useState({});
+  const [chartData, setChartData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch(`https://gasstation-mainnet.matic.network/`);
-      res = await res.json();
-      // console.log(res);
-      setGasData(res);
+      // let res = await fetch(`${process.env.base_url}/gas_overview`);
+      // const gdata = await res.json();
+      // setGasData(gdata);
+      const cdata = {
+        "2021-03-14": "0.38688257",
+        "2021-03-13": "0.41218722",
+        "2021-03-12": "0.4100801",
+        "2021-03-11": "0.444045",
+        "2021-03-10": "0.28798512",
+        "2021-03-09": "0.29842356",
+        "2021-03-08": "0.21873327",
+        "2021-03-20": "0.41478217",
+        "2021-03-19": "0.4060272",
+        "2021-03-18": "0.39387238",
+        "2021-03-17": "0.40897343",
+        "2021-03-16": "0.36712343",
+        "2021-03-15": "0.3906373"
+      }
+      // res = await fetch(`${process.env.base_url}/historical_prices`);
+      // const cdata = await res.json();
+      const data = [], label = [];
+      for (let d of Object.keys(cdata)) {
+        label.push(d);
+        data.push(cdata[d]);
+      }
+      console.log(data);
+      setChartData({
+        data: data,
+        label: label
+      })
     }
     fetchData();
   }, [])
@@ -69,7 +96,7 @@ const Index = ({ isMobile }) => {
 
           {/** Price Graph */}
           <div className={classes.statsChart} a="haha">
-            <LineChart />
+            <LineChart chartData={chartData} />
           </div>
         </section>
 
