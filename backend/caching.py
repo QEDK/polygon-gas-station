@@ -31,13 +31,17 @@ def set_weekly_prices():
     for item in res["data"]["prices"]:
         d[item["date"]] = item["price"]
     r.hset("prices", mapping=d)
+    while r.hlen("prices") > 7:
+        r.hdel("prices", min(r.hkeys("prices")))
 
 def update_current_price():
     res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC").json()["data"]["prices"][0]
     current_date = res["date"]
     if not r.hexists("prices", current_date):
+        r.hset("prices", current_date, res["price"])
         r.hdel("prices", min(r.hkeys("prices")))
-    r.hset("prices", current_date, res["price"])
+    else:  # extra logic to ensure >= 7 dates in db
+        r.hset("prices", current_date, res["price"])
 
 def main():
     set_last_block()
