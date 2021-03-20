@@ -9,30 +9,19 @@ import LineChart from '../components/chart';
 const Index = ({ isMobile }) => {
   const classes = useStyles();
   const [gasData, setGasData] = useState({});
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState({
+    data: [],
+    label: []
+  });
 
   useEffect(() => {
     const fetchData = async () => {
-      // let res = await fetch(`${process.env.base_url}/gas_overview`);
-      // const gdata = await res.json();
-      // setGasData(gdata);
-      const cdata = {
-        "2021-03-14": "0.38688257",
-        "2021-03-13": "0.41218722",
-        "2021-03-12": "0.4100801",
-        "2021-03-11": "0.444045",
-        "2021-03-10": "0.28798512",
-        "2021-03-09": "0.29842356",
-        "2021-03-08": "0.21873327",
-        "2021-03-20": "0.41478217",
-        "2021-03-19": "0.4060272",
-        "2021-03-18": "0.39387238",
-        "2021-03-17": "0.40897343",
-        "2021-03-16": "0.36712343",
-        "2021-03-15": "0.3906373"
-      }
-      // res = await fetch(`${process.env.base_url}/historical_prices`);
-      // const cdata = await res.json();
+      let res = await fetch(`${process.env.base_url}/gas_overview`);
+      const gdata = await res.json();
+      setGasData(gdata);
+
+      res = await fetch(`${process.env.base_url}/historical_prices`);
+      const cdata = await res.json();
       const data = [], label = [];
       for (let d of Object.keys(cdata)) {
         label.push(d);
@@ -76,7 +65,7 @@ const Index = ({ isMobile }) => {
               </div>
             </div>
 
-            <div className={classes.statsCurVal}>{'$'}{0.345}</div>
+            <div className={classes.statsCurVal}>{'$'}{parseFloat(chartData.data.slice(-1)).toPrecision(4)}</div>
 
             <div className={classes.chartLegend}>
               <div className={classes.chartLegendItem}>

@@ -22,6 +22,7 @@ import Navbar from '../components/Navbar';
 const TxCalculator = ({ isMobile }) => {
   const classes = useStyles();
   const [gasUsed, setGasUsed] = useState();
+  const [mprice, setMprice] = useState(0);
   const [radio, setRadio] = useState('Average');
   const [pred, setPred] = useState({
     gasUsed: 21000,
@@ -33,10 +34,15 @@ const TxCalculator = ({ isMobile }) => {
   const [gasData, setGasData] = useState({});
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch(`https://gasstation-mainnet.matic.network/`);
+      let res = await fetch(`${process.env.base_url}/gas_overview`);
       res = await res.json();
-      // console.log(res);
       setGasData(res);
+      // for gas price
+      res = await fetch(`${process.env.base_url}/historical_prices`);
+      let data = await res.json();
+      data = data[Object.keys(data)[Object.keys(data).length - 1]];
+      // console.log(data)
+      setMprice(data);
     }
     fetchData();
   }, [])
@@ -45,13 +51,13 @@ const TxCalculator = ({ isMobile }) => {
     e.preventDefault();
     console.log(radio);
     let gp = 1;
-    if(radio==='Safe') {
+    if (radio === 'Safe') {
       gp = gasData.safeLow;
-    } else if(radio==='Average') {
+    } else if (radio === 'Average') {
       gp = gasData.standard;
-    } else if(radio==='Fast') {
+    } else if (radio === 'Fast') {
       gp = gasData.fast;
-    } else if(radio==='Fastest') {
+    } else if (radio === 'Fastest') {
       gp = gasData.fastest;
     }
     let gu = gasUsed || 21000;
@@ -59,7 +65,7 @@ const TxCalculator = ({ isMobile }) => {
       gasUsed: gu,
       gasPrice: gp,
       txFee: (gu * gp * 0.000000001).toPrecision(5),
-      txFeeFiat: (gu * gp * 0.000000001 * 0.03).toPrecision(5),
+      txFeeFiat: (gu * gp * 0.000000001 * mprice).toPrecision(5),
     });
   }
 
@@ -74,7 +80,7 @@ const TxCalculator = ({ isMobile }) => {
 
   const rows = [
     createData('Transaction fee (MATIC)', pred.txFee),
-    createData('Transaction fee (Fiat)', pred.txFeeFiat)
+    createData('Transaction fee (Fiat $)', pred.txFeeFiat)
   ];
 
   return (
