@@ -5,11 +5,28 @@ import os
 import redis
 import requests
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "https://localhost",
+    "https://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 r = redis.Redis(host=os.getenv('DB_HOST'), port=os.getenv('DB_PORT'), password=os.getenv('DB_PASSWORD'),
     decode_responses=True)
 s = requests.Session()
