@@ -5,12 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar';
+import { ListItemText } from '@material-ui/core';
 
 // const web3 = new Web3('wss://rpc-mumbai.maticvigil.com/ws/v1/6ef6ca4d1f837bb2e3474e2a9a2402e38be882fd');
 
 const BlockChecker = ({ isMobile }) => {
   const classes = useStyles();
-  const [lastBlock, setLastBlock] = useState([]);
+  const [checkpointBlock, setCheckpointBlock] = useState('');
+  const [currentBlock, setCurrentBlock] = useState('');
   const [blockNumber, setBlockNumber] = useState();
   const [result, setResult] = useState('');
 
@@ -32,19 +34,24 @@ const BlockChecker = ({ isMobile }) => {
       //   })
       //   .on("error", console.error);
       let res = await fetch(`${process.env.base_url}/last_block`);
-      const data = await res.json();
-      setLastBlock(data.last_included_block);
+      let data = await res.json();
+      setCheckpointBlock(data.last_included_block);
+
+      res = await fetch(`${process.env.base_url}/gas_overview`);
+      data = await res.json();
+      setCurrentBlock(data.blockNumber);
     }
     fetchData();
   }, [])
 
   const checkBlock = (e) => {
     e.preventDefault();
-    if (blockNumber <= lastBlock)
-      setResult('Block Not added yet.')
+    if (0 < blockNumber <= checkpointBlock)
+      setResult(blockNumber + ' block included.')
+    else if (checkpointBlock < blockNumber <= currentBlock)
+      setResult(blockNumber + ' block not included yet.')
     else
-      setResult('Block added.')
-    setBlockNumber(0);
+      setResult('Invalid block number ' + blockNumber);
   }
 
   return (
@@ -59,18 +66,18 @@ const BlockChecker = ({ isMobile }) => {
 
           <div className={classes.blockCont}>
             <div className={classes.box}>
-              <Typography variant="h3" className={classes.boxTitle}>Last block added</Typography>
-              <div className={classes.boxTitle2}>{lastBlock}</div>
+              <Typography variant="h3" className={classes.boxTitle}>Latest block</Typography>
+              <div className={classes.boxTitle2}>{currentBlock}</div>
             </div>
             <div className={classes.box}>
-              <Typography variant="h3" className={classes.boxTitle}>Last block minted</Typography>
-              <div className={classes.boxTitle2}>{lastBlock}</div>
+              <Typography variant="h3" className={classes.boxTitle}>Latest checkpoint</Typography>
+              <div className={classes.boxTitle2}>{checkpointBlock}</div>
             </div>
           </div>
 
           <div className={classes.checker}>
             <div className={classes.container}>
-              <div className={classes.text}>Check if your block added or not {':'}</div>
+              <div className={classes.text}>Check if a block is included {':'}</div>
               <form className={classes.form} onSubmit={checkBlock}>
                 <img className={classes.formImg} src="img/blocks.svg" />
                 <input

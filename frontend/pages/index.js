@@ -23,13 +23,26 @@ const Index = ({ isMobile }) => {
 
       res = await fetch(`${process.env.base_url}/historical_prices`);
       const cdata = await res.json();
-      const data = [], label = [];
+      // sort date wise values
+      let sortData = [];
       for (let d of Object.keys(cdata)) {
-        label.push(d);
-        data.push(cdata[d]);
+        sortData.push([d, cdata[d]]);
+      }
+      sortData.sort(function (a, b) {
+        // "2021,03,20" 
+        let d1 = a[0].split('-').join(), d2 = b[0].split('-').join();
+        return d1 < d2 ? -1 : (d1 > d2 ? 1 : 0);
+      })
+      // console.log(cdata, sortData);
+
+      // make 2 arrays
+      const data = [], label = [];
+      for (let i = 0; i < sortData.length; i++) {
+        label.push(sortData[i][0]);
+        data.push(sortData[i][1]);
       }
       // console.log(data);
-      const matic_p = data[Object.keys(data)[Object.keys(data).length - 1]];
+      const matic_p = data[Object.keys(sortData)[Object.keys(sortData).length - 1]];
       setMprice(matic_p);
 
       setChartData({
@@ -78,11 +91,11 @@ const Index = ({ isMobile }) => {
               </div>
               <div className={classes.chartLegendItem}>
                 <span>Average Gas (Matic)</span>
-                <div className={classes.code}>{(21000 * gasData.fast * 0.000000001).toPrecision(5)}</div>
+                <div className={classes.code}>{(21000 * gasData.fast * 0.000000001).toPrecision(3)}</div>
               </div>
               <div className={classes.chartLegendItem}>
-                <span>Average Gas</span>
-                <div className={classes.code}>{'$ ' + (21000 * gasData.fast * 0.000000001 * mprice).toPrecision(5)}</div>
+                <span>Average Tx Gas</span>
+                <div className={classes.code}>{'$ ' + (21000 * gasData.fast * 0.000000001 * mprice).toPrecision(3)}</div>
               </div>
             </div>
           </div>
