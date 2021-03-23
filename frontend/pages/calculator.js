@@ -80,7 +80,7 @@ const TxCalculator = ({ isMobile }) => {
 
   const rows = [
     createData('Transaction fee (MATIC)', pred.txFee),
-    createData('Transaction fee (Fiat $)', pred.txFeeFiat)
+    createData('Transaction fee (USD)', pred.txFeeFiat)
   ];
 
   return (

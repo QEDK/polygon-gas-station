@@ -13,7 +13,7 @@ const BlockChecker = ({ isMobile }) => {
   const classes = useStyles();
   const [checkpointBlock, setCheckpointBlock] = useState('');
   const [currentBlock, setCurrentBlock] = useState('');
-  const [blockNumber, setBlockNumber] = useState();
+  const [blockNumber, setBlockNumber] = useState(0);
   const [result, setResult] = useState('');
 
 
@@ -35,23 +35,27 @@ const BlockChecker = ({ isMobile }) => {
       //   .on("error", console.error);
       let res = await fetch(`${process.env.base_url}/last_block`);
       let data = await res.json();
-      setCheckpointBlock(data.last_included_block);
+      setCheckpointBlock(parseInt(data.last_included_block));
 
       res = await fetch(`${process.env.base_url}/gas_overview`);
       data = await res.json();
-      setCurrentBlock(data.blockNumber);
+      setCurrentBlock(parseInt(data.blockNumber));
     }
     fetchData();
   }, [])
 
   const checkBlock = (e) => {
     e.preventDefault();
-    if (0 < blockNumber <= checkpointBlock)
+    console.log(blockNumber, checkpointBlock);
+    if (blockNumber > 0 && blockNumber <= checkpointBlock) {
       setResult(blockNumber + ' block included.')
-    else if (checkpointBlock < blockNumber <= currentBlock)
+    }
+    else if (checkpointBlock < blockNumber && blockNumber <= currentBlock) {
       setResult(blockNumber + ' block not included yet.')
-    else
+    }
+    else {
       setResult('Invalid block number ' + blockNumber);
+    }
   }
 
   return (
