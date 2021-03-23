@@ -19,7 +19,34 @@ const About = ({ isMobile }) => {
 
         <section className={classes.section}>
           <Typography variant="h4" className={classes.title}>
-            About
+            Matic Gas Station aims to help dApp developers with gas price recommendations, so that they can use it
+            before sending transaction off to Matic network.
+          </Typography>
+
+          <Typography variant="h2" className={classes.htitle}>
+            Origin
+          </Typography>
+          <Typography variant="h4" className={classes.text}>
+            At Matic, we were receiving request from dApp developers for building a gas price recommendation service.
+            So we took some inspiration from Eth Gas Station, and built one.
+          </Typography>
+
+          <Typography variant="h2" className={classes.htitle}>
+            Availability
+          </Typography>
+          <Typography variant="h4" className={classes.text}>
+            Matic Gas Station has been deployed both on Matic Mumbai Testnet & Matic Mainnet, where it analyzes
+            recent 500 transactions and recommends gas price.
+          </Typography>
+
+          <Typography variant="h2" className={classes.htitle}>
+            API Usage
+          </Typography>
+          <Typography variant="h4" className={classes.text}>
+            <code style={{ backgroundColor: '#FFFFFF' }}>curl https://gasstation-mainnet.matic.network</code>
+          </Typography>
+          <Typography variant="h4" className={classes.text}>
+            More details <a target="_blank" rel="noopener noreferrer" href="https://docs.matic.network/docs/develop/tools/matic-gas-station/#usage">here</a>
           </Typography>
 
         </section>
@@ -54,40 +81,29 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   section: {
-    padding: '0px 20px'
+    padding: '0px 20px',
+    // maxWidth: 900
+    margin: 20
   },
   title: {
     textAlign: 'left',
     fontSize: 20,
     opacity: 0.8,
     color: '#25354E',
-    margin: '20px'
   },
-  container: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr',
-    gridGap: '10px 10px',
-    [theme.breakpoints.down('md')]: {
-      gridTemplateColumns: '1fr 1fr',
-    },
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '1fr',
-    },
+  htitle: {
+    textAlign: 'left',
+    fontSize: 30,
+    fontWeight: 900,
+    padding: '40px 0px 20px',
   },
-  box: {
-    width: '100%',
-    height: 120,
-    margin: 'auto',
-    padding: '20px 10px',
-    background: '#FFFFFF',
-    boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)'
-  },
-  boxTitle: {
-    fontSize: 18,
-    color: '#4a4f55'
-  },
-  boxCont: {
-    fontSize: 16,
+  text: {
+    textAlign: 'left',
+    fontSize: 20,
+    opacity: 0.8,
+    fontWeight: 400,
+    color: '#25354E',
+    // fontStyle: 'italic'
   },
   code: {
     backgroundColor: '#87E1A9'

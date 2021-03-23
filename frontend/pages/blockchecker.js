@@ -1,46 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Web3 from 'web3';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar';
 
+// const web3 = new Web3('wss://rpc-mumbai.maticvigil.com/ws/v1/6ef6ca4d1f837bb2e3474e2a9a2402e38be882fd');
+
 const BlockChecker = ({ isMobile }) => {
   const classes = useStyles();
-  const [lastBlock, setLastBlock] = useState();
+  const [lastBlock, setLastBlock] = useState([]);
   const [blockNumber, setBlockNumber] = useState();
   const [result, setResult] = useState('');
 
-  // const [isPaused, setPause] = useState(false);
-  // const ws = useRef(null);
-  // useEffect(() => {
-  //   ws.current = new WebSocket("wss://rpc-mainnet.maticvigil.com/ws/v1");
-  //   ws.current.onopen = () => {
-  //     console.log("ws opened");
-  //     ws.current.send(JSON.stringify({
-  //       'command': 'register',
-  //       'key': '6ef6ca4d1f837bb2e3474e2a9a2402e38be882fd'
-  //     }));
-  //   }
-  //   ws.current.onclose = () => console.log("ws closed");
-
-  //   return () => {
-  //     ws.current.close();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!ws.current) return;
-
-  //   ws.current.onmessage = e => {
-  //     if (isPaused) return;
-  //     const message = JSON.parse(e.data);
-  //     console.log("e", message);
-  //   };
-  // }, [isPaused]);
 
   useEffect(() => {
     const fetchData = async () => {
+      // let bc = web3.eth.subscribe('newBlockHeaders', function (error, result) {
+      //   if (!error) {
+      //     console.log("here", result.number);
+      //     setBlockNumber(result.number);
+      //     return;
+      //   }
+      //   console.error(error);
+      // }).on("connected", function (subscriptionId) {
+      //   console.log(subscriptionId);
+      // })
+      //   .on("data", function (blockHeader) {
+      //     console.log("in data", blockHeader.number);
+      //   })
+      //   .on("error", console.error);
       let res = await fetch(`${process.env.base_url}/last_block`);
       const data = await res.json();
       setLastBlock(data.last_included_block);

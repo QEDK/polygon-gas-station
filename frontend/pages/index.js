@@ -9,6 +9,7 @@ import LineChart from '../components/chart';
 const Index = ({ isMobile }) => {
   const classes = useStyles();
   const [gasData, setGasData] = useState({});
+  const [mprice, setMprice] = useState(0);
   const [chartData, setChartData] = useState({
     data: [],
     label: []
@@ -27,7 +28,10 @@ const Index = ({ isMobile }) => {
         label.push(d);
         data.push(cdata[d]);
       }
-      console.log(data);
+      // console.log(data);
+      const matic_p = data[Object.keys(data)[Object.keys(data).length - 1]];
+      setMprice(matic_p);
+
       setChartData({
         data: data,
         label: label
@@ -73,12 +77,12 @@ const Index = ({ isMobile }) => {
                 <div className={classes.code}>{gasData.blockNumber}</div>
               </div>
               <div className={classes.chartLegendItem}>
-                <span>Market Cap</span>
-                <div className={classes.code}>$1,877 USD</div>
+                <span>Average Gas (Matic)</span>
+                <div className={classes.code}>{(21000 * gasData.fast * 0.000000001).toPrecision(5)}</div>
               </div>
               <div className={classes.chartLegendItem}>
-                <span>Market Cap</span>
-                <div className={classes.code}>$1 USD</div>
+                <span>Average Gas</span>
+                <div className={classes.code}>{'$ ' + (21000 * gasData.fast * 0.000000001 * mprice).toPrecision(5)}</div>
               </div>
             </div>
           </div>

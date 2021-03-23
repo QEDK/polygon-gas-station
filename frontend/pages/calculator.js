@@ -74,8 +74,8 @@ const TxCalculator = ({ isMobile }) => {
     setRadio(e.target.value);
   }
 
-  function createData(name, calories) {
-    return { name, calories };
+  function createData(name, value) {
+    return { name, value };
   }
 
   const rows = [
@@ -196,7 +196,7 @@ const TxCalculator = ({ isMobile }) => {
                       <TableCell component="th" scope="row">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.value}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

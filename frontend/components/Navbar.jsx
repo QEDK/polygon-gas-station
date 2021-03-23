@@ -8,7 +8,6 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -51,7 +50,8 @@ const Navbar = ({ title, ...props }) => {
           </a>
         </Link>
 
-        <Link href={'/txinspector'}>
+        {
+          /* <Link href={'/txinspector'}>
           <a className={classes.link}>
             <ListItem button>
               <img src="/img/txvision.svg" className={classes.itemLogo} />
@@ -59,7 +59,7 @@ const Navbar = ({ title, ...props }) => {
             </ListItem>
           </a>
         </Link>
-
+      */}
         <Link href={'/calculator'}>
           <a className={classes.link}>
             <ListItem button>
@@ -168,13 +168,19 @@ const useStyles = makeStyles((theme) => ({
   social: {
     position: 'absolute',
     display: 'flex',
-    right: 20
+    right: 20,
+    [theme.breakpoints.down('xs')]: {
+      right: 0
+    },
   },
   socialImg: {
     width: 40,
     display: 'block',
     margin: 'auto',
-    marginRight: 10
+    marginRight: 10,
+    [theme.breakpoints.down('xs')]: {
+      marginRight: 4,
+    },
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
