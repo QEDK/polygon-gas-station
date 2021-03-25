@@ -19,15 +19,15 @@ const About = ({ isMobile }) => {
 
         <section className={classes.section}>
           <Typography variant="h4" className={classes.title}>
-            Matic Gas Station aims to help dApp developers with gas price recommendations, so that they can use it
-            before sending transaction off to Matic network.
+            Polygon Gas Station aims to help dApp developers with gas price recommendations, so that they can use it
+            before sending transaction off to Polygon network.
           </Typography>
 
           <Typography variant="h2" className={classes.htitle}>
             Origin
           </Typography>
           <Typography variant="h4" className={classes.text}>
-            At Matic, we were receiving request from dApp developers for building a gas price recommendation service.
+            At Polygon, we were receiving request from dApp developers for building a gas price recommendation service.
             So we took some inspiration from Eth Gas Station, and built one.
           </Typography>
 
@@ -35,7 +35,7 @@ const About = ({ isMobile }) => {
             Availability
           </Typography>
           <Typography variant="h4" className={classes.text}>
-            Matic Gas Station has been deployed both on Matic Mumbai Testnet & Matic Mainnet, where it analyzes
+            Polygongon Gas Station has been deployed both on Polygon Mumbai Testnet & Polygon Mainnet, where it analyzes
             recent 500 transactions and recommends gas price.
           </Typography>
 

@@ -65,23 +65,23 @@ const BlockChecker = ({ isMobile }) => {
         <div className={classes.toolbar} />
         <section className={classes.section}>
           <Typography variant="h4" className={classes.title}>
-            You can Lookup at a specific Block if it has been added or not.
+            See if the block created on Polygon-Chain is checkpointed to Ethereum.
           </Typography>
 
           <div className={classes.blockCont}>
             <div className={classes.box}>
-              <Typography variant="h3" className={classes.boxTitle}>Latest block</Typography>
+              <Typography variant="h3" className={classes.boxTitle}>Latest block produced on Polygon</Typography>
               <div className={classes.boxTitle2}>{currentBlock}</div>
             </div>
             <div className={classes.box}>
-              <Typography variant="h3" className={classes.boxTitle}>Latest checkpoint</Typography>
+              <Typography variant="h3" className={classes.boxTitle}>Latest Block Checkpoint on Ethereum</Typography>
               <div className={classes.boxTitle2}>{checkpointBlock}</div>
             </div>
           </div>
 
           <div className={classes.checker}>
             <div className={classes.container}>
-              <div className={classes.text}>Check if a block is included {':'}</div>
+              <div className={classes.text}>Check if a block is included on Ethereum {':'}</div>
               <form className={classes.form} onSubmit={checkBlock}>
                 <img className={classes.formImg} src="img/blocks.svg" />
                 <input
