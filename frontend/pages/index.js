@@ -60,11 +60,11 @@ const Index = ({ isMobile }) => {
       <main className={classes.main}>
         <div className={classes.toolbar} />
 
-        <section className={classes.section}>
+        {/* <section className={classes.section}>
           <Typography variant="h4" className={classes.title}>
             Matic Gas station aims to help dApp developers with gas price recommendations, so that they can use it before sending transaction off to Matic network.
           </Typography>
-        </section>
+        </section> */}
 
         <section className={classes.blockSection}>
           {/** Price Stats */}
@@ -72,7 +72,7 @@ const Index = ({ isMobile }) => {
             <div className={classes.statsBlock}>
               <div className={classes.statsBlockLogo}>
                 <img width="32" height="32" src="img/matic.png" />
-                <div style={{ fontSize: 16, margin: 'auto', paddingLeft: 10 }} >MATIC</div>
+                <div style={{ fontSize: 16, margin: 'auto', paddingLeft: 10 }} >Polygon</div>
               </div>
 
               <div className={classes.statsBlockNumber}>
