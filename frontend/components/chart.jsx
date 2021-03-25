@@ -46,7 +46,11 @@ const LineChart = ({ chartData }) => {
           display: true,
           type: 'linear',
           gridLines: {
-            display: false,
+            display: true,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Price of MATIC in USD'
           },
         },
       ],

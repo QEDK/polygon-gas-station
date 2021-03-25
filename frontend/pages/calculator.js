@@ -30,6 +30,7 @@ const TxCalculator = ({ isMobile }) => {
     txFee: 0,
     txFeeFiat: 0,
   });
+  const [error, setError] = useState('');
 
   const [gasData, setGasData] = useState({});
   useEffect(() => {
@@ -61,11 +62,15 @@ const TxCalculator = ({ isMobile }) => {
       gp = gasData.fastest;
     }
     let gu = gasUsed || 21000;
+    let txFee = (gu * gp * 0.000000001).toPrecision(4)
+    let txFeeFiat = (gu * gp * 0.000000001 * mprice).toPrecision(4);
+    if (parseFloat(txFee) < 1e-6) txFee = "~ 0"
+    if (parseFloat(txFeeFiat) < 1e-6) txFeeFiat = "~ 0"
     setPred({
       gasUsed: gu,
       gasPrice: gp,
-      txFee: (gu * gp * 0.000000001).toPrecision(5),
-      txFeeFiat: (gu * gp * 0.000000001 * mprice).toPrecision(5),
+      txFee,
+      txFeeFiat,
     });
   }
 
@@ -175,7 +180,7 @@ const TxCalculator = ({ isMobile }) => {
               Predictions:
             </Typography>
             <Divider />
-            <div >
+            <div>
               <Typography variant="subtitle1" className={classes.usedPred}>
                 Gas Used = <span className={classes.code}>{pred.gasUsed} Gwei</span>
                 {' '}

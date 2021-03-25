@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar';
 import LineChart from '../components/chart';
+import getMonth from '../utils/getMonth';
 
 const Index = ({ isMobile }) => {
   const classes = useStyles();
@@ -38,7 +39,8 @@ const Index = ({ isMobile }) => {
       // make 2 arrays
       const data = [], label = [];
       for (let i = 0; i < sortData.length; i++) {
-        label.push(sortData[i][0]);
+        const dateAndMonth = sortData[i][0].split('-');
+        label.push(dateAndMonth[2] + '-' + getMonth(dateAndMonth[1]));
         data.push(sortData[i][1]);
       }
       // console.log(data);
@@ -94,7 +96,7 @@ const Index = ({ isMobile }) => {
                 <div className={classes.code}>{(21000 * gasData.fast * 0.000000001).toPrecision(3)}</div>
               </div>
               <div className={classes.chartLegendItem}>
-                <span>Average Tx Gas</span>
+                <span>Average Gas (USD)</span>
                 <div className={classes.code}>{'$ ' + (21000 * gasData.fast * 0.000000001 * mprice).toPrecision(3)}</div>
               </div>
             </div>
@@ -188,8 +190,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexFlow: 'row',
     justifyContent: 'space-between',
-    margin: 'auto',
-    marginBottom: 20,
+    margin: '20px auto',
+    // marginBottom: 20,
     padding: 20,
     backgroundColor: '#fff',
     // boxShadow: '0 3px 6px 0 rgb(0 0 0 / 16%)',
@@ -204,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   stats: {
-    width: '40%',
+    width: '44%',
     height: 'fit-content',
     margin: '30px 10px',
     display: 'flex',
@@ -283,6 +285,7 @@ const useStyles = makeStyles((theme) => ({
   statsChart: {
     width: '50%',
     height: 250,
+    margin: 'auto',
     [theme.breakpoints.down('md')]: {
       padding: 15,
       marginTop: 30,

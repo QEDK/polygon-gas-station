@@ -16,7 +16,6 @@ const BlockChecker = ({ isMobile }) => {
   const [blockNumber, setBlockNumber] = useState(0);
   const [result, setResult] = useState('');
 
-
   useEffect(() => {
     const fetchData = async () => {
       // let bc = web3.eth.subscribe('newBlockHeaders', function (error, result) {
@@ -48,13 +47,13 @@ const BlockChecker = ({ isMobile }) => {
     e.preventDefault();
     console.log(blockNumber, checkpointBlock);
     if (blockNumber > 0 && blockNumber <= checkpointBlock) {
-      setResult(blockNumber + ' block included.')
+      setResult('Block number ' + blockNumber + ' is Checkpointed to Ethereum.')
     }
     else if (checkpointBlock < blockNumber && blockNumber <= currentBlock) {
-      setResult(blockNumber + ' block not included yet.')
+      setResult('Block number ' + blockNumber + ' is created on Polygon but not yet CheckPointed on Ethereum.')
     }
     else {
-      setResult('Invalid block number ' + blockNumber);
+      setResult('Block number ' + blockNumber + ' is not created on Polygon');
     }
   }
 
