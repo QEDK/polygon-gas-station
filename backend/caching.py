@@ -13,14 +13,17 @@ s = requests.Session()
 schdler = sched.scheduler(time.time, time.sleep)
 
 def set_last_block():
-    next_block = last_known_block = int(r.get("last_included_block"))
+    last_block = r.hgetall("last_block")
+    next_block = last_known_block = int(last_block["block"])
+    timestamp = last_block["timestamp"]
     while True:
         res = s.get(f"https://apis.matic.network/api/v1/matic/block-included/{next_block + 1}").json()
         if res["message"] != "success":
             break
         next_block = int(res["end"])
+        timestamp = res["createdAt"]
     if next_block > last_known_block:
-        r.set("last_included_block", next_block)
+        r.hset("last_block", mapping={"block": next_block, "timestamp": timestamp})
 
 def set_weekly_prices():
     to_date = date.today()
