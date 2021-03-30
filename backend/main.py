@@ -44,7 +44,7 @@ async def gas_overview():
 
 @app.get("/last_block")
 async def last_block():
-    return {"last_included_block": r.get("last_included_block")}
+    return r.hgetall("last_block")
 
 @app.get("/historical_prices")
 async def historical_prices():
