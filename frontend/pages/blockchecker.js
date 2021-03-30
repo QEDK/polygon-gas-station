@@ -11,7 +11,7 @@ import { ListItemText } from '@material-ui/core';
 
 const BlockChecker = ({ isMobile }) => {
   const classes = useStyles();
-  const [checkpointBlock, setCheckpointBlock] = useState('');
+  const [checkpointBlock, setCheckpointBlock] = useState({});
   const [currentBlock, setCurrentBlock] = useState('');
   const [blockNumber, setBlockNumber] = useState(0);
   const [result, setResult] = useState('');
@@ -34,7 +34,13 @@ const BlockChecker = ({ isMobile }) => {
       //   .on("error", console.error);
       let res = await fetch(`${process.env.base_url}/last_block`);
       let data = await res.json();
-      setCheckpointBlock(parseInt(data.last_included_block));
+      let d = new Date(0);
+      d.setUTCSeconds(parseInt(data.timestamp));
+      setCheckpointBlock({
+        block: parseInt(data.block),
+        date: d.toDateString(),
+        time: d.toTimeString()
+      });
 
       res = await fetch(`${process.env.base_url}/gas_overview`);
       data = await res.json();
@@ -45,11 +51,11 @@ const BlockChecker = ({ isMobile }) => {
 
   const checkBlock = (e) => {
     e.preventDefault();
-    console.log(blockNumber, checkpointBlock);
-    if (blockNumber > 0 && blockNumber <= checkpointBlock) {
+    console.log(blockNumber, checkpointBlock.block);
+    if (blockNumber > 0 && blockNumber <= checkpointBlock.block) {
       setResult('Block number ' + blockNumber + ' is Checkpointed to Ethereum.')
     }
-    else if (checkpointBlock < blockNumber && blockNumber <= currentBlock) {
+    else if (checkpointBlock.block < blockNumber && blockNumber <= currentBlock) {
       setResult('Block number ' + blockNumber + ' is created on Polygon but not yet CheckPointed on Ethereum.')
     }
     else {
@@ -73,8 +79,13 @@ const BlockChecker = ({ isMobile }) => {
               <div className={classes.boxTitle2}>{currentBlock}</div>
             </div>
             <div className={classes.box}>
+              <Typography variant="h3" className={classes.boxTitle}>{' → '} Last Checkpointed on {' → '}</Typography>
+              <div className={classes.boxTitleTime}>{checkpointBlock.date}</div>
+              <div className={classes.boxTitleTime}>{checkpointBlock.time}</div>
+            </div>
+            <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Latest Block Checkpoint on Ethereum</Typography>
-              <div className={classes.boxTitle2}>{checkpointBlock}</div>
+              <div className={classes.boxTitle2}>{checkpointBlock.block}</div>
             </div>
           </div>
 
@@ -137,20 +148,31 @@ const useStyles = makeStyles((theme) => ({
     color: '#25354E',
     margin: '20px'
   },
+  dateTitle: {
+    textAlign: 'left',
+    fontSize: 20,
+    opacity: 0.9,
+    color: '#4a4f55',
+    margin: '20px'
+  },
   blockCont: {
     margin: '40px auto',
     maxWidth: '90%',
-    display: 'flex'
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
   },
   box: {
     width: '100%',
-    height: 100,
-    margin: 'auto',
+    height: 'max-content',
     padding: '20px 10px',
+    margin: 'auto 10px',
     background: '#FFFFFF',
+    borderRadius: 10,
     boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     [theme.breakpoints.down('xs')]: {
-      height: 90,
+      // height: 90,
     },
   },
   boxTitle: {
@@ -159,6 +181,13 @@ const useStyles = makeStyles((theme) => ({
     color: '#4a4f55',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
+    },
+  },
+  boxTitleTime: {
+    color: '#2FB999',
+    fontSize: 16,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
     },
   },
   boxTitle2: {

@@ -113,32 +113,32 @@ const Index = ({ isMobile }) => {
             <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Safe Low</Typography>
               <div className={classes.boxCont}>
-                <div style={{ color: '#00c9a7', fontSize: 24 }}> {gasData.safeLow} gwei</div>
-                <div>{'Lowest Possible'}</div>
+                <div style={{ color: '#00c9a7', fontSize: 24 }}> $ {(gasData.safeLow * mprice * 0.000000001).toFixed(10)}</div>
+                <div>{`${gasData.safeLow} Gwei | Lowest Possible`}</div>
               </div>
             </div>
 
             <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Standard</Typography>
               <div className={classes.boxCont}>
-                <div style={{ color: '#2FB999', fontSize: 24 }}> {gasData.standard} gwei</div>
-                <div>{'Average gas'}</div>
+                <div style={{ color: '#2FB999', fontSize: 24 }}> $ {(gasData.standard * mprice * 0.000000001).toFixed(10)}</div>
+                <div>{`${gasData.standard} Gwei | Average gas`}</div>
               </div>
             </div>
 
             <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Fast</Typography>
               <div className={classes.boxCont}>
-                <div style={{ color: '#3498db', fontSize: 24 }}> {gasData.fast} gwei</div>
-                <div>{'Standard < 30s'}</div>
+                <div style={{ color: '#3498db', fontSize: 24 }}> $ {(gasData.fast * mprice * 0.000000001).toFixed(10)}</div>
+                <div>{`${gasData.fast} Gwei | Standard < 30s`}</div>
               </div>
             </div>
 
             <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Fastest</Typography>
               <div className={classes.boxCont}>
-                <div style={{ color: '#FF558F', fontSize: 24 }}> {gasData.fastest} gwei</div>
-                <div>{'Trader < ASAP'}</div>
+                <div style={{ color: '#FF558F', fontSize: 24 }}> $ {(gasData.fastest * mprice * 0.000000001).toFixed(10)}</div>
+                <div>{`${gasData.fastest} Gwei | Trader < ASAP`}</div>
               </div>
             </div>
           </div>
@@ -311,7 +311,7 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     width: '100%',
-    height: 120,
+    height: 130,
     margin: 'auto',
     padding: '20px 10px',
     background: '#FFFFFF',
@@ -323,6 +323,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boxCont: {
     fontSize: 16,
+    marginTop: 5
   },
   code: {
     backgroundColor: '#87E1A9'
