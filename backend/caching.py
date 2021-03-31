@@ -1,8 +1,9 @@
+import json
 import os
-import time
 import redis
 import requests
 import sched
+import time
 from datetime import date, timedelta
 from dotenv import load_dotenv
 load_dotenv()
@@ -62,27 +63,24 @@ def update_current_price():
         "MATIC/USD": res["price"]
     })
 
-def set_gas_prices():
-    gasfee = {
-        "eth": int(s.get(
-            "https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key="+os.getenv("DP_APIKEY")
-            ).json()["fast"])//10,
-        "matic": int(s.get("https://gasstation-mainnet.matic.network").json()["fast"])
-    }
+def set_comparison_prices():
+    ethgas = int(s.get(
+        "https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key="+os.getenv("DP_APIKEY")
+    ).json()["fast"])//10
+    maticgas = int(s.get("https://gasstation-mainnet.matic.network").json()["fast"])
+    d = {}
     for use, gasused in gas.items():
-        d = {"eth": gasused*gasfee["eth"], "matic": gasused*gasfee["matic"]}
-        r.hset(use, mapping=d)
+        d[use] = {"eth": gasused*ethgas, "matic": gasused*maticgas}
+    r.set("comparison_prices", json.dumps(d))
 
 def main():
     set_last_block()
     set_currency_prices()
-    set_gas_prices()
-    print(r.hgetall("currency_prices"))
-    print([r.hgetall(use) for use in gas])
+    set_comparison_prices()
     while True:
         schdler.enter(3600, 1, set_last_block)  # one hour
         schdler.enter(900, 1, update_current_price)  # 15 minutes
-        schdler.enter(600, 1, set_gas_prices) # 10 minutes
+        schdler.enter(600, 1, set_comparison_prices) # 10 minutes
         schdler.run()
 
 if __name__ == "__main__":
