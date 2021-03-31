@@ -50,6 +50,14 @@ async def last_block():
 async def historical_prices():
 	return r.hgetall("prices")
 
+@app.get("/currency_prices")
+async def currency_prices():
+    return r.hgetall("currency_prices")
+
+@app.get("/comparison_prices")
+async def comparison_prices():
+    return json.loads(r.get("comparison_prices"))
+
 @app.get("/debug")
 async def check():
     return cron.pid
