@@ -39,11 +39,9 @@ const TxCalculator = ({ isMobile }) => {
       res = await res.json();
       setGasData(res);
       // for gas price
-      res = await fetch(`${process.env.base_url}/historical_prices`);
+      res = await fetch(`${process.env.base_url}/currency_prices`);
       let data = await res.json();
-      data = data[Object.keys(data)[Object.keys(data).length - 1]];
-      // console.log(data)
-      setMprice(data);
+      setMprice(data['MATIC/USD']);
     }
     fetchData();
   }, [])

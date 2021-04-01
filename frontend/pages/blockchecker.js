@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar';
+import { getRelativeTime } from '../utils/getRelativeTime';
 import { ListItemText } from '@material-ui/core';
 
 // const web3 = new Web3('wss://rpc-mumbai.maticvigil.com/ws/v1/6ef6ca4d1f837bb2e3474e2a9a2402e38be882fd');
@@ -36,12 +37,11 @@ const BlockChecker = ({ isMobile }) => {
       let data = await res.json();
       let d = new Date(0);
       d.setUTCSeconds(parseInt(data.timestamp));
+      d = getRelativeTime(d);
       setCheckpointBlock({
         block: parseInt(data.block),
-        date: d.toDateString(),
-        time: d.toTimeString()
+        time: d
       });
-
       res = await fetch(`${process.env.base_url}/gas_overview`);
       data = await res.json();
       setCurrentBlock(parseInt(data.blockNumber));
@@ -72,16 +72,15 @@ const BlockChecker = ({ isMobile }) => {
           <Typography variant="h4" className={classes.title}>
             See if the block created on Polygon-Chain is checkpointed to Ethereum.
           </Typography>
+          <Typography variant="h4" className={classes.title}>
+            Last checkpointed on Ethereum at {' '}
+            <span className={classes.dateTitle}>{checkpointBlock.time}</span>
+          </Typography>
 
           <div className={classes.blockCont}>
             <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Latest block produced on Polygon</Typography>
               <div className={classes.boxTitle2}>{currentBlock}</div>
-            </div>
-            <div className={classes.box}>
-              <Typography variant="h3" className={classes.boxTitle}>{' → '} Last Checkpointed on {' → '}</Typography>
-              <div className={classes.boxTitleTime}>{checkpointBlock.date}</div>
-              <div className={classes.boxTitleTime}>{checkpointBlock.time}</div>
             </div>
             <div className={classes.box}>
               <Typography variant="h3" className={classes.boxTitle}>Latest Block Checkpoint on Ethereum</Typography>
@@ -149,11 +148,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '20px'
   },
   dateTitle: {
-    textAlign: 'left',
-    fontSize: 20,
-    opacity: 0.9,
-    color: '#4a4f55',
-    margin: '20px'
+    background: '#9ddfd3',
+    fontStyle: 'italic'
   },
   blockCont: {
     margin: '40px auto',
