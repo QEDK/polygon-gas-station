@@ -120,7 +120,7 @@ const Index = ({ isMobile }) => {
 
         <section className={classes.comparison}>
           <Typography variant="h4" className={classes.title}>
-            Comparison of Eth and Matic
+            Comparison between Ethereum transaction and Polygon transaction
           </Typography>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
@@ -406,7 +406,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: 20,
     color: '#25354E',
-    marginBottom: 10
+    marginBottom: 10,
+    [theme.breakpoints.down('md')]: {
+      padding: '12px 0px',
+    },
   },
 
 
