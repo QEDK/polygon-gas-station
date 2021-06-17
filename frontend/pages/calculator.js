@@ -35,11 +35,11 @@ const TxCalculator = ({ isMobile }) => {
   const [gasData, setGasData] = useState({});
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch(`${process.env.base_url}/gas_overview`);
+      let res = await fetch(`/api/gas_overview`);
       res = await res.json();
       setGasData(res);
       // for gas price
-      res = await fetch(`${process.env.base_url}/currency_prices`);
+      res = await fetch(`/api/currency_prices`);
       let data = await res.json();
       setMprice(data['MATIC/USD']);
     }

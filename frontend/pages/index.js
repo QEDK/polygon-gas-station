@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar';
 // import LineChart from '../components/chart';
-import getMonth from '../utils/getMonth';
+// import getMonth from '../utils/getMonth';
 
 const Index = ({ isMobile }) => {
   const classes = useStyles();
@@ -24,18 +24,18 @@ const Index = ({ isMobile }) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      let res = await fetch(`${process.env.base_url}/gas_overview`);
+      let res = await fetch(`/api/gas_overview`);
       let data = await res.json();
       setGasData(data);
 
-      res = await fetch(`${process.env.base_url}/currency_prices`);
+      res = await fetch(`/api/currency_prices`);
       let cdata = await res.json();
       setCprice({
         eth: cdata['ETH/USD'],
         matic: cdata['MATIC/USD']
       })
 
-      res = await fetch(`${process.env.base_url}/comparison_prices`);
+      res = await fetch(`/api/comparison_prices`);
       data = await res.json();
       let compArr = [];
       for (const key of Object.keys(data)) {

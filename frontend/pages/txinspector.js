@@ -19,10 +19,10 @@ const TxInspector = ({ isMobile }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch(`${process.env.base_url}/last_block`);
+      let res = await fetch(`/api/last_block`);
       const data = await res.json();
       setLastBlock(data.last_included_block);
-      // let res = await fetch(`${process.env.base_url}/gas_overview`);
+      // let res = await fetch(`/api/gas_overview`);
       // let web3 = await new Web3(window.ethereum);
       // console.log(web3.geth.txpool);
       

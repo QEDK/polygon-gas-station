@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar';
 import { getRelativeTime } from '../utils/getRelativeTime';
-import { ListItemText } from '@material-ui/core';
+// import { ListItemText } from '@material-ui/core';
 
 // const web3 = new Web3('wss://rpc-mumbai.maticvigil.com/ws/v1/6ef6ca4d1f837bb2e3474e2a9a2402e38be882fd');
 
@@ -33,7 +33,7 @@ const BlockChecker = ({ isMobile }) => {
       //     console.log("in data", blockHeader.number);
       //   })
       //   .on("error", console.error);
-      let res = await fetch(`${process.env.base_url}/last_block`);
+      let res = await fetch(`/api/last_block`);
       let data = await res.json();
       let d = new Date(0);
       d.setUTCSeconds(parseInt(data.timestamp));
@@ -42,7 +42,7 @@ const BlockChecker = ({ isMobile }) => {
         block: parseInt(data.block),
         time: d
       });
-      res = await fetch(`${process.env.base_url}/gas_overview`);
+      res = await fetch(`/api/gas_overview`);
       data = await res.json();
       setCurrentBlock(parseInt(data.blockNumber));
     }
