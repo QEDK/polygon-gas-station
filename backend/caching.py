@@ -14,7 +14,7 @@ s = requests.Session()
 schdler = sched.scheduler(time.time, time.sleep)
 gas = {
     "ETH/MATIC transfer": 21000,
-    "NFT minting": 143073
+    "NFT minting": 143073,
     "NFT approval": 53946,
     "NFT transfer": 83117,
     "ERC20 approval": 29907,
