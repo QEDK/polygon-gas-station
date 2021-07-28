@@ -13,8 +13,21 @@ decode_responses=True)
 s = requests.Session()
 schdler = sched.scheduler(time.time, time.sleep)
 gas = {
-    "ETH Transfer": 21000, "NFT Transfer": 50000, "ETH-ERC20 Swap": 130000,
-    "Add Liquidity": 140000, "Opensea: Registry": 391402
+    "ETH/MATIC transfer": 21000,
+    "NFT minting": 143073
+    "NFT approval": 53946,
+    "NFT transfer": 83117,
+    "ERC20 approval": 29907,
+    "ERC20 transfer": 46109,
+    "Add liquidity: Uniswap/Quickswap": 134775,
+    "Add liquidity: Curve": 182725,
+    "Token swap: Uniswap/Quickswap": 130000,
+    "Curve swap": 114651,
+    "0x swap": 114931,
+    "Aave: lend": 186695,
+    "Aave: borrow": 269145,
+    "Aave: repay": 210337,
+    "Opensea: Registry": 389335
     }
 
 def set_last_block():
