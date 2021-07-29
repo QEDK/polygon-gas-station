@@ -71,7 +71,7 @@ def set_currency_prices():
     })
 
 def update_current_price():
-    res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC",
+    res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC/",
                 auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
             ).json()["data"]["prices"][0]
     current_date = res["date"]
