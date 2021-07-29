@@ -65,7 +65,6 @@ def set_currency_prices():
             f"https://api.covalenthq.com/v1/pricing/historical/USD/ETH/",
             auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
             ).json()["data"]["prices"][0]["price"]
-    print(eth_price)
     r.hset("currency_prices", mapping={
         "ETH/USD": eth_price,
         "MATIC/USD": d[to_date.isoformat()]
@@ -85,7 +84,6 @@ def update_current_price():
         f"https://api.covalenthq.com/v1/pricing/historical/USD/ETH/",
         auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
         ).json()["data"]["prices"][0]["price"]
-    print(eth_price)
     r.hset("currency_prices", mapping={
         "ETH/USD": eth_price,
         "MATIC/USD": res["price"]
