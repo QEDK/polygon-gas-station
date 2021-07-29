@@ -4,6 +4,7 @@ import redis
 import requests
 import sched
 import time
+from requests.auth import HTTPBasicAuth
 from datetime import date, timedelta
 from dotenv import load_dotenv
 load_dotenv()
@@ -32,8 +33,12 @@ gas = {
 
 def set_last_block():
     last_block = r.hgetall("last_block")
-    next_block = last_known_block = int(last_block["block"])
-    timestamp = last_block["timestamp"]
+    if not last_block:
+        next_block = last_known_block = 17392546
+        timestamp = 1627566738
+    else:
+        next_block = last_known_block = int(last_block["block"])
+        timestamp = last_block["timestamp"]
     while True:
         res = s.get(f"https://apis.matic.network/api/v1/matic/block-included/{next_block + 1}").json()
         if res["message"] != "success":
@@ -47,32 +52,42 @@ def set_currency_prices():
     to_date = date.today()
     from_date = to_date - timedelta(days=6)
     res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC/",
-        params={"from": from_date.isoformat(), "to": to_date.isoformat()}).json()
+        params={"from": from_date.isoformat(), "to": to_date.isoformat()},
+        auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
+        ).json()
     d = {}
     for item in res["data"]["prices"]:
         d[item["date"]] = item["price"]
     r.hset("prices", mapping=d)
     while r.hlen("prices") > 7:
         r.hdel("prices", min(r.hkeys("prices")))
+    eth_price = s.get(
+            f"https://api.covalenthq.com/v1/pricing/historical/USD/ETH/",
+            auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
+            ).json()["data"]["prices"][0]["price"]
+    print(eth_price)
     r.hset("currency_prices", mapping={
-        "ETH/USD": s.get(
-            f"https://api.covalenthq.com/v1/pricing/historical/USD/ETH"
-            ).json()["data"]["prices"][0]["price"],
+        "ETH/USD": eth_price,
         "MATIC/USD": d[to_date.isoformat()]
     })
 
 def update_current_price():
-    res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC").json()["data"]["prices"][0]
+    res = s.get(f"https://api.covalenthq.com/v1/pricing/historical/USD/MATIC",
+                auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
+            ).json()["data"]["prices"][0]
     current_date = res["date"]
     if not r.hexists("prices", current_date):
         r.hset("prices", current_date, res["price"])
         r.hdel("prices", min(r.hkeys("prices")))
     else:  # extra logic to ensure >= 7 dates in db
         r.hset("prices", current_date, res["price"])
+    eth_price = s.get(
+        f"https://api.covalenthq.com/v1/pricing/historical/USD/ETH/",
+        auth = HTTPBasicAuth(os.getenv('COVALENT_API'), '')
+        ).json()["data"]["prices"][0]["price"]
+    print(eth_price)
     r.hset("currency_prices", mapping={
-        "ETH/USD": s.get(
-            f"https://api.covalenthq.com/v1/pricing/historical/USD/ETH"
-            ).json()["data"]["prices"][0]["price"],
+        "ETH/USD": eth_price,
         "MATIC/USD": res["price"]
     })
 
